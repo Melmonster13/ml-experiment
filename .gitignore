@@ -1,0 +1,20 @@
+# Environments
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Generated datasets (large, re-downloadable)
+data/
+
+# Experiment artifacts: ignore everything under experiments/, but keep
+# directory structure plus metrics.csv and loss_curves.png so results
+# are preserved in git without committing large adapter weights.
+experiments/**/*
+!experiments/**/
+!experiments/**/metrics.csv
+!experiments/**/loss_curves.png

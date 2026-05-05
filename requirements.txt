@@ -1,0 +1,7 @@
+mlx
+mlx-lm
+datasets
+transformers
+huggingface-hub
+matplotlib
+pyyaml
