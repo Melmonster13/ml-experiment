@@ -106,3 +106,9 @@ ml-experiment/
 ├── requirements.txt
 └── CLAUDE.md                     # working notes for the AI assistant
 ```
+
+## Acknowledgements
+
+Built with assistance from Claude (Anthropic) for code generation and 
+Claude Code for project scaffolding. All experimental design, 
+hyperparameter decisions, and analysis are my own.
