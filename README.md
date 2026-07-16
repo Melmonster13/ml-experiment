@@ -117,6 +117,5 @@ ml-experiment/
 
 ## Acknowledgements
 
-Built with assistance from Claude (Anthropic) for code generation and 
-Claude Code for project scaffolding. All experimental design, 
+Built with assistance from Claude Code (Anthropic) for code generation and for project scaffolding. All experimental design, 
 hyperparameter decisions, and analysis are my own.
