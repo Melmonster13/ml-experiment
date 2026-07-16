@@ -12,7 +12,8 @@ LoRA fine-tuning of small open-weight LLMs (`microsoft/phi-2`, `bigcode/starcode
 
 ## Folder layout
 
-- `src/` — `prepare_data.py`, `train.py`, `evaluate.py`, `plot_loss.py`
+- `src/` — `prepare_data.py`, `train.py`, `evaluate.py`, `plot_loss.py`, `plot_comparison.py` (cross-run README charts)
+- `assets/` — README charts, regenerated with `python src/plot_comparison.py`
 - `data/` — formatted dataset (gitignored)
 - `configs/` — `lora_config.json`, the active hyperparameters for the next run
 - `experiments/` — one dated subfolder per run (`YYYY-MM-DD-HHMM/`) holding adapter weights, a copy of the config, `metrics.csv`, and `loss_curves.png`. Adapter weights are gitignored; `metrics.csv` and `loss_curves.png` are kept.
@@ -57,7 +58,7 @@ python src/evaluate.py --model bigcode/starcoder2-3b --adapter experiments/2026-
 
 - **Layer count mattered more than iteration count.** 8 → 16 trainable LoRA layers improved Phi-2's best val loss from 0.88 to 0.81 *with fewer iterations* (200 vs. 300).
 - **Higher rank wasn't better.** At 16 layers, rank 8 (val 0.82) beat rank 16 (val 0.86) — the larger adapter overfit faster.
-- **More iterations hurt.** 600 iters (val 0.99) was strictly worse than 300 iters (val 0.88) at the same rank/layers; the run drifted past its best checkpoint. Keep `iters` modest and watch the val curve in `loss_curves.png`.
+- **More iterations hurt.** 600 iters reached the same best val (0.88 at iter 200) as 300 iters at the same rank/layers, then drifted past the best checkpoint — val loss was back above 1.0 by iter 600. Keep `iters` modest and watch the val curve in `loss_curves.png`.
 - **Narrower domains converge fast.** StarCoder2 on Python instructions reached 0.57 with only 4 LoRA layers and 200 iters.
 
 ## Known memory limitations
@@ -74,4 +75,4 @@ python src/evaluate.py --model bigcode/starcoder2-3b --adapter experiments/2026-
 3. Run `python src/train.py`. A fresh `experiments/<YYYY-MM-DD-HHMM>/` folder is created automatically with a snapshot of the config, `adapters.safetensors`, and `metrics.csv`.
 4. Run `python src/plot_loss.py` (defaults to the latest run) to render `loss_curves.png` into the same folder.
 5. Sanity-check generations with `python src/evaluate.py "<prompt>"` — pin `--model` and `--adapter` if not running on the latest Phi-2 adapter.
-6. Commit `metrics.csv` and `loss_curves.png` (allowed by `.gitignore`); add a row to the experiments table in `README.md`.
+6. Commit `metrics.csv` and `loss_curves.png` (allowed by `.gitignore`); add a row to the experiments table in `README.md`. If the run belongs in the README charts, add it to the run lists in `src/plot_comparison.py` and re-run that script.

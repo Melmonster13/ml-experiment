@@ -61,18 +61,24 @@ To start a new experiment, edit `configs/lora_config.json` and re-run `src/train
 
 | Model         | Dataset     | Layers | Rank | Iters | Best Val Loss |
 |---------------|-------------|-------:|-----:|------:|--------------:|
-| Phi-2         | Alpaca      |      8 |    8 |   600 |          0.99 |
+| Phi-2         | Alpaca      |      8 |    8 |   600 |          0.88 |
 | Phi-2         | Alpaca      |      8 |    8 |   300 |          0.88 |
 | Phi-2         | Alpaca      |     16 |    8 |   300 |          0.82 |
 | Phi-2         | Alpaca      |     16 |   16 |   300 |          0.86 |
 | **Phi-2**     | **Alpaca**  | **16** |  **8** | **200** | **0.81 (best)** |
 | **StarCoder2-3B** | **Python Code** | **4** | **8** | **200** | **0.57 (best)** |
 
+![Best validation loss by configuration](assets/sweep-best-val-loss.png)
+
+![Validation loss across the Phi-2 LoRA sweep](assets/phi2-sweep-val-loss.png)
+
+Both charts render from the committed `metrics.csv` files: `python src/plot_comparison.py`.
+
 ## Key findings
 
 - **More LoRA layers > more iterations.** Going from 8 → 16 trainable layers dropped Phi-2's best val loss from 0.88 to 0.81 with *fewer* iterations (200 vs. 300).
 - **Rank 8 beat rank 16** at fixed layers. The higher-rank adapter (16/16) overfit faster and ended at 0.86 vs. 0.82 for 16/8 at the same iteration count.
-- **Longer training hurt.** At 8 layers / rank 8, 600 iters underperformed 300 iters (0.99 vs. 0.88) — additional steps drifted past the best checkpoint.
+- **Longer training hurt.** At 8 layers / rank 8, 600 iters matched the 300-iter run's best (0.88 at iteration 200), then drifted past it — val loss climbed back above 1.0 by the end of the run.
 - **StarCoder2-3B** specialized cleanly on Python instructions, reaching val loss 0.57 with only 4 LoRA layers — narrower domain, sharper fit.
 - **Adapter-only outputs** kept disk usage minimal (a few MB per run) compared to fusing full weights.
 
@@ -88,6 +94,7 @@ To start a new experiment, edit `configs/lora_config.json` and re-run `src/train
 
 ```
 ml-experiment/
+├── assets/                       # README charts (rendered by plot_comparison.py)
 ├── configs/
 │   └── lora_config.json          # active hyperparameters for the next run
 ├── data/                         # generated dataset (gitignored)
@@ -102,6 +109,7 @@ ml-experiment/
 │   ├── prepare_data.py           # downloads + formats the HF dataset into jsonl
 │   ├── train.py                  # runs mlx-lm LoRA, parses metrics into CSV
 │   ├── plot_loss.py              # renders loss curves from metrics.csv
+│   ├── plot_comparison.py        # renders the cross-run README charts
 │   └── evaluate.py               # base vs. fine-tuned side-by-side on a prompt
 ├── requirements.txt
 └── CLAUDE.md                     # working notes for the AI assistant
