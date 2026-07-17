@@ -2,6 +2,10 @@
 
 LoRA fine-tuning of small open-weight LLMs (Phi-2, StarCoder2-3B) on instruction datasets, running locally with Apple's MLX framework. The project covers the full loop: data prep, training, hyperparameter sweep, loss visualization, and side-by-side base vs. fine-tuned evaluation.
 
+## Why LoRA?
+
+Fully fine-tuning even a "small" LLM means updating billions of weights. For Phi-2, that would mean holding optimizer state and gradients for 2.7B parameters, far beyond what a 16 GB laptop can do. LoRA (Low-Rank Adaptation, [Hu et al., 2021](https://arxiv.org/abs/2106.09685)) freezes the base model and instead trains small low-rank matrices injected into selected layers. At rank 8 across 16 layers, that works out to a few million trainable parameters instead of billions: training fits in consumer unified memory, and each experiment produces an adapter file of a few MB rather than a multi-GB copy of the model. The adapters stay separate from the base weights, so one downloaded model can host many task-specific fine-tunes, which is exactly what the `experiments/` folder is.
+
 ## Hardware & stack
 
 - **Hardware:** M4 MacBook Pro, 16 GB unified memory
