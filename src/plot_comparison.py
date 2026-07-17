@@ -35,8 +35,8 @@ SWEEP_SERIES = [
     ("2026-05-03-2358", "16 layers · rank 16", YELLOW),
 ]
 
-# Mirrors the README experiments table. 2026-05-04-2214/2228/2240 are excluded:
-# empty or truncated metrics from aborted StarCoder2 runs.
+# The completed runs from the README experiments table. The OOM/stopped
+# StarCoder2 rows (2026-05-04-2214/2228/2240) have no usable metrics to plot.
 SUMMARY_ROWS = [
     ("2026-05-03-1733", "phi2", "8 layers · rank 8 · 600 iters"),
     ("2026-05-03-1745", "phi2", "8 layers · rank 8 · 300 iters"),

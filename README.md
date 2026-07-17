@@ -59,14 +59,19 @@ To start a new experiment, edit `configs/lora_config.json` and re-run `src/train
 
 ## Experiments summary
 
-| Model         | Dataset     | Layers | Rank | Iters | Best Val Loss |
-|---------------|-------------|-------:|-----:|------:|--------------:|
-| Phi-2         | Alpaca      |      8 |    8 |   600 |          0.88 |
-| Phi-2         | Alpaca      |      8 |    8 |   300 |          0.88 |
-| Phi-2         | Alpaca      |     16 |    8 |   300 |          0.82 |
-| Phi-2         | Alpaca      |     16 |   16 |   300 |          0.86 |
-| **Phi-2**     | **Alpaca**  | **16** |  **8** | **200** | **0.81 (best)** |
-| **StarCoder2-3B** | **Python Code** | **4** | **8** | **200** | **0.57 (best)** |
+| Model         | Dataset     | Layers | Rank | Iters | Seq Len | Best Val Loss |
+|---------------|-------------|-------:|-----:|------:|--------:|--------------:|
+| Phi-2         | Alpaca      |      8 |    8 |   600 |    1024 |          0.88 |
+| Phi-2         | Alpaca      |      8 |    8 |   300 |    1024 |          0.88 |
+| Phi-2         | Alpaca      |     16 |    8 |   300 |    1024 |          0.82 |
+| Phi-2         | Alpaca      |     16 |   16 |   300 |    1024 |          0.86 |
+| **Phi-2**     | **Alpaca**  | **16** |  **8** | **200** | **1024** | **0.81 (best)** |
+| StarCoder2-3B | Python Code |     16 |    8 |   200 |    1024 | OOM at startup |
+| StarCoder2-3B | Python Code |      8 |    8 |   200 |     512 | OOM at iter 1 |
+| **StarCoder2-3B** | **Python Code** | **4** | **8** | **200** | **256** | **0.57 (best)** |
+| StarCoder2-3B | Python Code |      4 |    8 |   400 |     256 | stopped at iter 190 |
+
+The three non-scoring StarCoder2 rows are the memory-ceiling story: the model only fit in 16 GB at 4 LoRA layers with sequences truncated to 256 tokens, and the 400-iter retry was stopped once it showed no improvement over the completed run.
 
 ![Best validation loss by configuration](assets/sweep-best-val-loss.png)
 
