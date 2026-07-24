@@ -121,8 +121,13 @@ ml-experiment/
 │   ├── plot_comparison.py        # renders the cross-run README charts
 │   └── evaluate.py               # base vs. fine-tuned side-by-side on a prompt
 ├── requirements.txt
-└── CLAUDE.md                     # working notes for the AI assistant
+├── CLAUDE.md                     # working notes for the AI assistant
+└── LICENSE
 ```
+
+## License
+
+Released under the [MIT License](LICENSE).
 
 ## Acknowledgements
 
