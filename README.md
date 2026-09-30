@@ -91,6 +91,14 @@ Both charts render from the committed `metrics.csv` files: `python src/plot_comp
 - **StarCoder2-3B** specialized cleanly on Python instructions, reaching val loss 0.57 with only 4 LoRA layers — narrower domain, sharper fit.
 - **Adapter-only outputs** kept disk usage minimal (a few MB per run) compared to fusing full weights.
 
+## Follow-up: LoRA vs QLoRA
+
+The StarCoder2 memory ceiling is revisited in [ml-experiment2](https://github.com/Melmonster13/ml-experiment2), a controlled companion experiment on the same laptop and data:
+- It replays the best StarCoder2 run exactly.
+- It then trains on 4-bit and 8-bit quantized base models.
+- An 8-bit base matched the baseline's loss in 67% less memory.
+- Both configs that ran out of memory here (16 layers / 1024 tokens and 8 layers / 512 tokens) then trained. The 16-layer one gave the best loss.
+
 ## Known limitations
 
 - **16 GB memory ceiling.** Training requires `batch_size: 1`, `grad_checkpoint: true`, and capped sequence length. Anything more aggressive OOMs.
