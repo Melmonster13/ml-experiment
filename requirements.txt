@@ -1,7 +1,7 @@
-mlx
-mlx-lm
-datasets
-transformers
-huggingface-hub
-matplotlib
-pyyaml
+mlx==0.31.2
+mlx-lm==0.31.3
+datasets==4.8.5
+transformers==5.7.0
+huggingface-hub==1.13.0
+matplotlib==3.10.9
+pyyaml==6.0.3
