@@ -17,22 +17,23 @@ ROOT = Path(__file__).resolve().parent.parent
 EXPERIMENTS_DIR = ROOT / "experiments"
 ASSETS_DIR = ROOT / "assets"
 
-BLUE = "#2a78d6"
-AQUA = "#1baf7a"
-YELLOW = "#eda100"
-SURFACE = "#fcfcfb"
-INK = "#0b0b0b"
-INK2 = "#52514e"
-MUTED = "#898781"
-GRID = "#e1e0d9"
-BASELINE = "#c3c2b7"
+# Synthwave palette, matching the --sw-* tokens of the GitHub Pages theme.
+CYAN = "#009cad"
+PINK = "#ff2e88"
+ORANGE = "#cc7b30"
+SURFACE = "#140a2e"
+INK = "#ece6ff"
+INK2 = "#c3b6e8"
+MUTED = "#9d8fc9"
+GRID = "#2e2060"
+BASELINE = "#4a3690"
 
 # Distinct Phi-2 configs only: the 200/250-iter runs of the winning config
 # (2026-05-04-0014/2135) trace the 300-iter curve point-for-point.
 SWEEP_SERIES = [
-    ("2026-05-03-1733", "8 layers · rank 8", BLUE),
-    ("2026-05-03-2339", "16 layers · rank 8", AQUA),
-    ("2026-05-03-2358", "16 layers · rank 16", YELLOW),
+    ("2026-05-03-1733", "8 layers · rank 8", CYAN),
+    ("2026-05-03-2339", "16 layers · rank 8", PINK),
+    ("2026-05-03-2358", "16 layers · rank 16", ORANGE),
 ]
 
 # The completed runs from the README experiments table. The OOM/stopped
@@ -46,7 +47,7 @@ SUMMARY_ROWS = [
     ("2026-05-04-2233", "sc2", "4 layers · rank 8 · 200 iters"),
 ]
 GROUP_HEADERS = {"phi2": "Phi-2 · Alpaca", "sc2": "StarCoder2-3B · Python instructions"}
-GROUP_COLORS = {"phi2": BLUE, "sc2": AQUA}
+GROUP_COLORS = {"phi2": CYAN, "sc2": PINK}
 WINNERS = {"2026-05-04-0014", "2026-05-04-2233"}
 
 
