@@ -1,0 +1,13 @@
+title: LoRA Fine-Tuning on Apple Silicon
+description: LoRA fine-tuning of Phi-2 and StarCoder2 on Apple Silicon using MLX
+
+remote_theme: Melmonster13/synthwave-theme@v1.0.0
+plugins:
+  - jekyll-remote-theme
+
+exclude:
+  - CLAUDE.md
+  - configs/
+  - notebooks/
+  - requirements.txt
+  - src/
