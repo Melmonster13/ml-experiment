@@ -17,6 +17,16 @@ ROOT = Path(__file__).resolve().parent.parent
 EXPERIMENTS_DIR = ROOT / "experiments"
 DEFAULT_SAVE_EVERY = 100
 
+# Synthwave palette, matching the --sw-* tokens of the GitHub Pages theme.
+CYAN = "#009cad"
+PINK = "#ff2e88"
+SURFACE = "#140a2e"
+INK = "#ece6ff"
+INK2 = "#c3b6e8"
+MUTED = "#9d8fc9"
+GRID = "#2e2060"
+BASELINE = "#4a3690"
+
 
 def latest_experiment() -> Path:
     runs = sorted(p for p in EXPERIMENTS_DIR.iterdir() if p.is_dir())
@@ -79,28 +89,45 @@ def main() -> None:
     val_x = [it for it, _ in val]
     val_y = [loss for _, loss in val]
 
+    plt.rcParams.update({
+        "font.family": ["Helvetica Neue", "Arial", "DejaVu Sans"],
+        "figure.facecolor": SURFACE,
+        "axes.facecolor": SURFACE,
+        "savefig.facecolor": SURFACE,
+        "axes.edgecolor": BASELINE,
+        "axes.labelcolor": MUTED,
+        "xtick.color": MUTED,
+        "ytick.color": MUTED,
+        "text.color": INK,
+        "legend.facecolor": SURFACE,
+        "legend.edgecolor": BASELINE,
+        "legend.labelcolor": INK2,
+    })
+
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5))
 
     # Panel 1: train loss
-    ax1.plot(train_x, train_y, color="C0", linewidth=1.5, label="Train loss")
+    ax1.plot(train_x, train_y, color=CYAN, linewidth=1.5, label="Train loss")
     for c in checkpoints:
-        ax1.axvline(c, color="gray", linestyle="--", linewidth=0.6, alpha=0.5)
+        ax1.axvline(c, color=BASELINE, linestyle="--", linewidth=0.6, alpha=0.6)
     ax1.set_xlabel("Iteration")
     ax1.set_ylabel("Loss")
     ax1.set_title("Training loss")
-    ax1.grid(True, alpha=0.3)
+    ax1.grid(True, color=GRID, linewidth=0.75)
+    ax1.set_axisbelow(True)
     ax1.legend()
 
     # Panel 2: val points over faded train line
-    ax2.plot(train_x, train_y, color="C0", linewidth=1.0, alpha=0.25, label="Train loss (faded)")
+    ax2.plot(train_x, train_y, color=CYAN, linewidth=1.0, alpha=0.35, label="Train loss (faded)")
     if val_x:
-        ax2.plot(val_x, val_y, "o-", color="C3", linewidth=1.5, markersize=6, label="Val loss")
+        ax2.plot(val_x, val_y, "o-", color=PINK, linewidth=1.5, markersize=6, label="Val loss")
     for c in checkpoints:
-        ax2.axvline(c, color="gray", linestyle="--", linewidth=0.6, alpha=0.5)
+        ax2.axvline(c, color=BASELINE, linestyle="--", linewidth=0.6, alpha=0.6)
     ax2.set_xlabel("Iteration")
     ax2.set_ylabel("Loss")
     ax2.set_title("Validation loss")
-    ax2.grid(True, alpha=0.3)
+    ax2.grid(True, color=GRID, linewidth=0.75)
+    ax2.set_axisbelow(True)
     ax2.legend()
 
     fig.suptitle(f"Loss curves — {exp_dir.name}")
